@@ -10,7 +10,6 @@ Project case chosen: AI-Powered Study Companion for Filipino Learners.
 ### AI-Powered Study Companion for Filipino Learners
 
 [![Flutter](https://img.shields.io/badge/Built%20With-Flutter-02569B?logo=flutter)](https://flutter.dev)
-[![Powered by Claude](https://img.shields.io/badge/Powered%20By-Claude%20AI-orange)](https://www.anthropic.com)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Hackathon](https://img.shields.io/badge/Hackathon-Accenture%20Project%20Case-purple)]()
 
@@ -204,7 +203,6 @@ alalai_app/
 | Layer | Technology |
 |-------|------------|
 | Framework | Flutter (Dart) |
-| AI Brain | Claude via Anthropic API (claude-sonnet-4-6) |
 | Card Swiping | flutter_card_swiper |
 | File Upload | file_picker and image_picker |
 | Image and PDF Reading | Claude Vision and Document API |
