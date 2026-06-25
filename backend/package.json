@@ -2,7 +2,6 @@
   "name": "alalayai-backend",
   "version": "1.0.0",
   "description": "ALALAi App - AI-Powered Study Companion Backend",
-  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -22,4 +21,4 @@
   "devDependencies": {
     "nodemon": "^3.0.2"
   }
-}
+} 
