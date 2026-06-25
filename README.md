@@ -1,10 +1,7 @@
 <div align="center">
 
 ## INNOVASION
-Dimaculangan, Simon
-Gallon, Jason
-Pardo, Miguel
-Sison, Gerardo 
+Dimaculangan, Simon | Gallon, Jason | Pardo, Miguel | Sison, Gerardo 
 
 Project case chosen: AI-Powered Study Companion for Filipino Learners.
 
