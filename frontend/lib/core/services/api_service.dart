@@ -3,18 +3,13 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // ── Change this to your machine's local IP if testing on a real phone
-  // ── Keep localhost if using an emulator
-  static const String _base = 'http://192.168.1.x:3000/api';
+  // ── YOUR REAL IP ────────────────────────────────────────
+  static const String _base = 'http://192.168.1.9:3000/api';
 
   static const Duration _timeout = Duration(seconds: 30);
 
-  // ────────────────────────────────────────────────────────
-  // TOPICS
-  // ────────────────────────────────────────────────────────
+  // ── TOPICS ──────────────────────────────────────────────
 
-  /// Get all topics, optionally filtered by subject and/or grade level.
-  /// Example: getTopics(subject: 'math', gradeLevel: 7)
   static Future<List<Map<String, dynamic>>> getTopics({
     String? subject,
     int? gradeLevel,
@@ -31,7 +26,6 @@ class ApiService {
     return data.cast<Map<String, dynamic>>();
   }
 
-  /// Get a single topic by ID (includes full content field).
   static Future<Map<String, dynamic>> getTopic(int id) async {
     final uri = Uri.parse('$_base/topics/$id');
     final response = await http.get(uri).timeout(_timeout);
@@ -40,12 +34,8 @@ class ApiService {
     return body['data'] as Map<String, dynamic>;
   }
 
-  // ────────────────────────────────────────────────────────
-  // SESSION
-  // ────────────────────────────────────────────────────────
+  // ── SESSION ─────────────────────────────────────────────
 
-  /// Create a new study session and generate cards from Laya.
-  /// Pass either [topicId] (pre-loaded DepEd topic) or [content] (uploaded text).
   static Future<Map<String, dynamic>> createSession({
     int? topicId,
     required int gradeLevel,
@@ -54,23 +44,24 @@ class ApiService {
     String? content,
   }) async {
     final uri = Uri.parse('$_base/session');
+    final bodyMap = <String, dynamic>{
+      'gradeLevel': gradeLevel,
+      'subject': subject,
+      'language': language,
+    };
+    if (topicId != null) bodyMap['topicId'] = topicId;
+    if (content != null) bodyMap['content'] = content;
+
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        if (topicId != null) 'topicId': topicId,
-        'gradeLevel': gradeLevel,
-        'subject': subject,
-        'language': language,
-        if (content != null) 'content': content,
-      }),
+      body: jsonEncode(bodyMap),
     ).timeout(_timeout);
 
     final body = _parse(response);
     return body['data'] as Map<String, dynamic>;
   }
 
-  /// Get an existing session and its cards.
   static Future<Map<String, dynamic>> getSession(String sessionId) async {
     final uri = Uri.parse('$_base/session/$sessionId');
     final response = await http.get(uri).timeout(_timeout);
@@ -79,8 +70,6 @@ class ApiService {
     return body['data'] as Map<String, dynamic>;
   }
 
-  /// Record the result of a card swipe.
-  /// [result] must be 'correct', 'wrong', or 'skipped'
   static Future<void> recordCardResult({
     required String sessionId,
     required String cardId,
@@ -94,7 +83,6 @@ class ApiService {
     ).timeout(_timeout);
   }
 
-  /// Mark a session as completed and get the summary.
   static Future<Map<String, dynamic>> completeSession(String sessionId) async {
     final uri = Uri.parse('$_base/session/$sessionId/complete');
     final response = await http.post(uri).timeout(_timeout);
@@ -103,11 +91,8 @@ class ApiService {
     return body['data'] as Map<String, dynamic>;
   }
 
-  // ────────────────────────────────────────────────────────
-  // LAYA — AI
-  // ────────────────────────────────────────────────────────
+  // ── LAYA — AI ───────────────────────────────────────────
 
-  /// Ask Laya to re-explain a card the student swiped left on.
   static Future<String> reExplain({
     required String sessionId,
     required String question,
@@ -115,16 +100,17 @@ class ApiService {
     String? content,
   }) async {
     final uri = Uri.parse('$_base/laya/reexplain');
+    final bodyMap = <String, dynamic>{
+      'sessionId': sessionId,
+      'question': question,
+    };
+    if (previousExplanation != null) bodyMap['previousExplanation'] = previousExplanation;
+    if (content != null) bodyMap['content'] = content;
+
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'sessionId': sessionId,
-        'question': question,
-        if (previousExplanation != null)
-          'previousExplanation': previousExplanation,
-        if (content != null) 'content': content,
-      }),
+      body: jsonEncode(bodyMap),
     ).timeout(_timeout);
 
     final body = _parse(response);
@@ -132,21 +118,22 @@ class ApiService {
     return data['explanation'] as String;
   }
 
-  /// Send a chat message to Laya and get a reply.
   static Future<String> chat({
     required String sessionId,
     required String message,
     String? content,
   }) async {
     final uri = Uri.parse('$_base/laya/chat');
+    final bodyMap = <String, dynamic>{
+      'sessionId': sessionId,
+      'message': message,
+    };
+    if (content != null) bodyMap['content'] = content;
+
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'sessionId': sessionId,
-        'message': message,
-        if (content != null) 'content': content,
-      }),
+      body: jsonEncode(bodyMap),
     ).timeout(_timeout);
 
     final body = _parse(response);
@@ -154,11 +141,8 @@ class ApiService {
     return data['reply'] as String;
   }
 
-  // ────────────────────────────────────────────────────────
-  // UPLOAD
-  // ────────────────────────────────────────────────────────
+  // ── UPLOAD ──────────────────────────────────────────────
 
-  /// Upload a PDF or image file and get the extracted text back.
   static Future<String> uploadFile(File file) async {
     final uri = Uri.parse('$_base/upload');
     final request = http.MultipartRequest('POST', uri)
@@ -172,9 +156,7 @@ class ApiService {
     return data['content'] as String;
   }
 
-  // ────────────────────────────────────────────────────────
-  // PRIVATE HELPER
-  // ────────────────────────────────────────────────────────
+  // ── PRIVATE HELPER ──────────────────────────────────────
 
   static Map<String, dynamic> _parse(http.Response response) {
     final body = jsonDecode(response.body) as Map<String, dynamic>;
@@ -188,7 +170,6 @@ class ApiService {
   }
 }
 
-// ── Custom exception so screens can show friendly errors ──
 class ApiException implements Exception {
   final String message;
   final int statusCode;

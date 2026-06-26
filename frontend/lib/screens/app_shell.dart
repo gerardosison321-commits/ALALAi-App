@@ -4,7 +4,6 @@ import 'home/home_screen.dart';
 import 'progress/progress_screen.dart';
 import 'chat/chat_screen.dart';
 import 'profile/profile_screen.dart';
-import 'upload/upload_screen.dart';
 import 'swipe_screen.dart';
 
 class AppShell extends StatefulWidget {

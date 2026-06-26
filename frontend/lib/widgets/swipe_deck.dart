@@ -5,9 +5,10 @@ import 'study_card.dart';
 
 class SwipeDeck extends StatefulWidget {
   final String question;
+  final String? explanation;
+  final String cardType;
   final int currentCard;
   final int totalCards;
-
   final VoidCallback onGotIt;
   final VoidCallback onExplain;
   final VoidCallback onPractice;
@@ -16,6 +17,8 @@ class SwipeDeck extends StatefulWidget {
   const SwipeDeck({
     super.key,
     required this.question,
+    this.explanation,
+    required this.cardType,
     required this.currentCard,
     required this.totalCards,
     required this.onGotIt,
@@ -30,7 +33,6 @@ class SwipeDeck extends StatefulWidget {
 
 class _SwipeDeckState extends State<SwipeDeck> {
   Offset offset = Offset.zero;
-
   static const double threshold = 120;
 
   @override
@@ -38,20 +40,20 @@ class _SwipeDeckState extends State<SwipeDeck> {
     final dx = offset.dx;
     final dy = offset.dy;
 
-    String label = "";
+    String label = '';
     Color color = Colors.transparent;
 
     if (dx > 40) {
-      label = "✔ GOT IT";
+      label = '✔ GOT IT';
       color = Colors.green;
     } else if (dx < -40) {
-      label = "💡 EXPLAIN";
+      label = '💡 EXPLAIN';
       color = Colors.orange;
     } else if (dy < -40) {
-      label = "📝 PRACTICE";
+      label = '📝 PRACTICE';
       color = Colors.blue;
     } else if (dy > 40) {
-      label = "⏭ SKIP";
+      label = '⏭ SKIP';
       color = Colors.grey;
     }
 
@@ -74,10 +76,7 @@ class _SwipeDeckState extends State<SwipeDeck> {
               } else if (offset.dy > threshold) {
                 widget.onSkip();
               }
-
-              setState(() {
-                offset = Offset.zero;
-              });
+              setState(() => offset = Offset.zero);
             },
             child: Stack(
               alignment: Alignment.center,
@@ -86,15 +85,17 @@ class _SwipeDeckState extends State<SwipeDeck> {
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeOut,
                   transform: Matrix4.identity()
-                    ..translate(offset.dx, offset.dy)
+                    ..setEntry(0, 3, offset.dx)
+                    ..setEntry(1, 3, offset.dy)
                     ..rotateZ(offset.dx * 0.001),
                   child: StudyCard(
                     question: widget.question,
+                    explanation: widget.explanation,
+                    cardType: widget.cardType,
                     currentCard: widget.currentCard,
                     totalCards: widget.totalCards,
                   ),
                 ),
-
                 IgnorePointer(
                   child: AnimatedOpacity(
                     opacity: label.isEmpty ? 0 : 1,
@@ -123,7 +124,6 @@ class _SwipeDeckState extends State<SwipeDeck> {
             ),
           ),
         ),
-
         ActionButtons(
           onGotIt: widget.onGotIt,
           onExplain: widget.onExplain,
