@@ -1,25 +1,38 @@
-# Dependencies
+# Flutter build artifacts
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+Generated.xcconfig
+DerivedData/
+*.iml
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
 
+# Android
+frontend/android/.gradle/
+frontend/android/app/build/
+frontend/android/build/
+frontend/android/gradle/
+frontend/android/local.properties
+*.apk
+*.aab
+
+# iOS
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/App.framework
+frontend/ios/build/
+
+# Web
+frontend/web/.dart_tool/
+frontend/web/build/
+
+#backend
 node_modules/
-backend/node_modules/
-
-# Environment files
-
 .env
-*.env
-backend/.env
-
-# Logs
-
-*.log
-logs/
-
-# OS files
-
-.DS_Store
-Thumbs.db
-
-# IDE files
-
-.vscode/
-.idea/

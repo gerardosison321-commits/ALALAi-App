@@ -1,0 +1,23 @@
+[33mcommit 8083de340c4b350c1482a6afe01fdc2e9705cc8e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msimon/ai[m[33m)[m
+Author: Simon <mchiareta1990@gmail.com>
+Date:   Fri Jun 26 07:59:01 2026 +0800
+
+    Stop tracking .env
+
+[33mcommit dce3f9f7911e5b76ff285957c103467e9f5c775a[m
+Author: Simon <mchiareta1990@gmail.com>
+Date:   Fri Jun 26 07:56:07 2026 +0800
+
+    ai
+
+[33mcommit 414fccf1dbc60ce2367d7876fb75db2f21881b64[m
+Author: Simon <mchiareta1990@gmail.com>
+Date:   Fri Jun 26 04:35:25 2026 +0800
+
+    so far eto nagawa q
+    + node_modules
+    config > +groq.js
+    +.env
+    +.env.example
+    +package-lock.json
+    +package.json
