@@ -19,6 +19,7 @@ app.use('/api/laya',    require('./routes/laya.routes'));
 app.use('/api/session', require('./routes/session.routes'));
 app.use('/api/topics',  require('./routes/topics.routes'));
 app.use('/api/upload',  require('./routes/upload.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 
 // ── Global error handler (must be last) ──────────────────
 app.use(require('./middlewares/error.middleware'));

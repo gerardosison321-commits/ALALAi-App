@@ -26,4 +26,7 @@ router.patch('/:id/card/:cardId',
 // POST /api/session/:id/complete
 router.post('/:id/complete', controller.complete);
 
+// GET /api/session/stats
+router.get('/stats', controller.getStats);
+
 module.exports = router;

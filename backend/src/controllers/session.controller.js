@@ -64,4 +64,26 @@ async function complete(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { create, getOne, recordResult, complete };
+
+// GET /api/session/stats?userId=xxx
+async function getStats(req, res, next) {
+  try {
+    const { userId } = req.query;
+    if (!userId) {
+      return res.status(400).json({ success: false, error: 'userId required' });
+    }
+
+    const [rows] = await pool.execute(
+      `SELECT subject, COUNT(*) as completed 
+       FROM sessions 
+       WHERE user_id = ? AND status = 'completed' 
+       GROUP BY subject`,
+      [userId]
+    );
+
+    res.json({ success: true, data: rows });
+  } catch (err) { next(err); }
+}
+
+// Add to module.exports:
+module.exports = { create, getOne, recordResult, complete, getStats };
