@@ -137,8 +137,8 @@ cd alalai_app
 # 2. Install dependencies
 flutter pub get
 
-# 3. Add your Anthropic API key
-# Open lib/core/services/claude_service.dart
+# 3. Add your GROQ API Key
+# Open backend/.env
 # Replace YOUR_ANTHROPIC_API_KEY_HERE with your actual key
 
 # 4. Run the app
@@ -169,7 +169,7 @@ alalai_app/
 │   │   │   ├── app_strings.dart         <- Bilingual strings
 │   │   │   └── app_theme.dart           <- App-wide theme
 │   │   └── services/
-│   │       ├── claude_service.dart      <- Anthropic API (Laya's brain)
+│   │       ├── laya.service.js     <- Anthropic API (Laya's brain)
 │   │       └── file_service.dart        <- File and image upload and extraction
 │   ├── models/
 │   │   ├── card_model.dart              <- Learning card data structure
@@ -205,7 +205,7 @@ alalai_app/
 | Framework | Flutter (Dart) |
 | Card Swiping | flutter_card_swiper |
 | File Upload | file_picker and image_picker |
-| Image and PDF Reading | Claude Vision and Document API |
+| Image and PDF Reading | GROQ Vision and Document API |
 | Animations | flutter_animate |
 | Persistence | shared_preferences |
 | Chat Rendering | flutter_markdown |
@@ -241,7 +241,7 @@ Built for the **Accenture Project Case: AI-Powered Study Companion for Filipino 
 
 **Laya** is ALALAi App's AI tutor, named from within the word *alalay* (to support), and also meaning *kalayaan* (freedom). Laya represents the freedom that comes with accessible education: the freedom to learn at your own pace, in your own language, wherever you are.
 
-Laya is powered by **Claude (Anthropic)** and designed to behave as a patient and encouraging Filipino tutor, warm like a kuya or ate, never condescending, always adapting to the student's level, and never giving up on making a concept click.
+Laya is powered by **GROQCLOUD** and designed to behave as a patient and encouraging Filipino tutor, warm like a kuya or ate, never condescending, always adapting to the student's level, and never giving up on making a concept click.
 
 
 ---
