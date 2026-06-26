@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'core/constants/app_colors.dart';
-import 'core/routes/app_routes.dart';
-import 'screens/app_shell.dart';
+import 'screens/auth/splash_screen.dart';
 
 void main() {
   runApp(const AlalaiApp());
@@ -21,8 +19,7 @@ class AlalaiApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         colorSchemeSeed: AppColors.primary,
       ),
-      home: const AppShell(),
-      onGenerateRoute: AppRoutes.onGenerateRoute,
+      home: const SplashScreen(),
     );
   }
 }

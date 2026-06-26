@@ -3,10 +3,60 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // ── YOUR REAL IP ────────────────────────────────────────
   static const String _base = 'http://192.168.1.9:3000/api';
-
   static const Duration _timeout = Duration(seconds: 30);
+
+  // ── AUTH ────────────────────────────────────────────────
+
+  static Future<Map<String, dynamic>> register({
+    required String name,
+    required String email,
+    required String password,
+    required int gradeLevel,
+  }) async {
+    final uri = Uri.parse('$_base/auth/register');
+    final response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': name,
+        'email': email,
+        'password': password,
+        'gradeLevel': gradeLevel,
+      }),
+    ).timeout(_timeout);
+
+    final body = _parse(response);
+    return body['data'] as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
+    final uri = Uri.parse('$_base/auth/login');
+    final response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email,
+        'password': password,
+      }),
+    ).timeout(_timeout);
+
+    final body = _parse(response);
+    return body['data'] as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> getProfile(String userId) async {
+    final uri = Uri.parse('$_base/auth/me').replace(
+      queryParameters: {'userId': userId},
+    );
+    final response = await http.get(uri).timeout(_timeout);
+
+    final body = _parse(response);
+    return body['data'] as Map<String, dynamic>;
+  }
 
   // ── TOPICS ──────────────────────────────────────────────
 
@@ -168,6 +218,18 @@ class ApiService {
     final error = body['error'] ?? 'Unknown error from server';
     throw ApiException(error.toString(), response.statusCode);
   }
+
+    static Future<List<Map<String, dynamic>>> getSessionStats(String userId) async {
+    final uri = Uri.parse('$_base/session/stats').replace(
+      queryParameters: {'userId': userId},
+    );
+    final response = await http.get(uri).timeout(_timeout);
+
+    final body = _parse(response);
+    final data = body['data'] as List<dynamic>;
+    return data.cast<Map<String, dynamic>>();
+  }
+
 }
 
 class ApiException implements Exception {
