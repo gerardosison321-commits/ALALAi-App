@@ -31,8 +31,12 @@ frontend/ios/build/
 
 # Web
 frontend/web/.dart_tool/
+<<<<<<< HEAD
 frontend/web/build/
 
 #backend
 node_modules/
 .env
+=======
+frontend/web/build/
+>>>>>>> sison/integration
